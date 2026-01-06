@@ -1,0 +1,78 @@
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Modal box */
+.confirm-modal {
+  width: 320px;
+  background: #020617;
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  animation: scaleIn 0.15s ease;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.confirm-modal h3 {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.confirm-modal h3.buy { color: #22c55e; }
+.confirm-modal h3.sell { color: #ef4444; }
+
+/* Details */
+.confirm-details p {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  color: #cbd5f5;
+}
+
+.confirm-details .total {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Actions */
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.cancel-btn {
+  flex: 1;
+  background: #1e293b;
+  color: white;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.confirm-btn {
+  flex: 1;
+  border-radius: 8px;
+  padding: 8px;
+  font-weight: bold;
+}
+
+.confirm-btn.buy {
+  background: #22c55e;
+  color: #022c22;
+}
+
+.confirm-btn.sell {
+  background: #ef4444;
+  color: #3b0202;
+}
