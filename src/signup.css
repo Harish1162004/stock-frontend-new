@@ -1,0 +1,23 @@
+/* Minimal signup styles */
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.signup-box {
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.signup-box input {
+  display: block;
+  width: 260px;
+  margin: 8px 0;
+  padding: 8px;
+}
+.signup-box button {
+  margin-top: 12px;
+  padding: 8px 12px;
+}
