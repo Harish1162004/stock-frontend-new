@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import Sidebar from "./Sidebar";
+import Sidebar from "./sidebar";
 import CandleChart from "./components/CandleChart";
 import VolumeChart from "./components/VolumeChart";
 import OrderPanel from "./components/OrderPanel";

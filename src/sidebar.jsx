@@ -1,26 +1,43 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./sidebar.css";
 
 function Sidebar() {
   const navigate = useNavigate();
+  const username = localStorage.getItem("username") || "User";
 
-  const logout = () => {
-    localStorage.clear();
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("username");
     navigate("/");
   };
 
   return (
     <div className="sidebar">
-      <h2 className="logo">StockEngine</h2>
+      <div className="sidebar-header">
+        <h2>📈 StockEngine</h2>
+      </div>
 
-      <NavLink to="/dashboard">Dashboard</NavLink>
-      <NavLink to="/orders">Orders</NavLink>
-      <NavLink to="/place-order">Place Order</NavLink>
-      <NavLink to="/portfolio">Portfolio</NavLink>
+      <nav className="sidebar-nav">
+        <a href="/dashboard" className="nav-link active">
+          📊 Dashboard
+        </a>
+        <a href="/portfolio" className="nav-link">
+          💼 Portfolio
+        </a>
+        <a href="/orders" className="nav-link">
+          📝 Orders
+        </a>
+      </nav>
 
-      <button className="logout" onClick={logout}>
-        Logout
-      </button>
+      <div className="sidebar-footer">
+        <div className="user-info">
+          <p className="username">👤 {username}</p>
+        </div>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
