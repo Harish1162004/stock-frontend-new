@@ -8,7 +8,7 @@ function Register() {
   const navigate = useNavigate();
 
   function handleRegister() {
-    fetch("http://localhost:8080/auth/signup", {
+    fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
