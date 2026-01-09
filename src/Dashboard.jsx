@@ -10,7 +10,7 @@ import { calculatePosition } from "./utils/positions";
 import { useTrading } from "./context/TradingContext";
 import OrderHistory from "./components/OrderHistory";
 
-import "./dashboard.css";
+import "./Dashboard.css";
 
 function Dashboard() {
   const [active, setActive] = useState("TCS");

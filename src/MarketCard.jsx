@@ -1,4 +1,4 @@
-import "./dashboard.css";
+import "./Dashboard.css";
 
 function MarketCard({ name, price, prevPrice }) {
   const isUp = price > prevPrice;
