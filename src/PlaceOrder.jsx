@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTrading } from "./context/TradingContext";
-import "./placeOrder.css";
+import "./PlaceOrder.css";
 
 function PlaceOrder() {
   const { prices, placeOrder } = useTrading();
