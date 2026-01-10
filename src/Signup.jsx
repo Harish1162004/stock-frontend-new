@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "./signup.css"; // ✅ CSS added
+import "./signup.css";// ✅ CSS added
 
 function Signup() {
   const [username, setUsername] = useState("");
