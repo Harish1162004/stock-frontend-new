@@ -1,5 +1,7 @@
+
+
 import React, { useMemo } from "react";
-import Sidebar from "./sidebar";
+import Sidebar from "./sidebar"
 import { useTrading } from "./context/TradingContext";
 import { calculatePosition } from "./utils/positions";
 import "./Portfolio.css";

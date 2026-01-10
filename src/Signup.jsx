@@ -1,3 +1,5 @@
+
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./signup.css"; // ✅ CSS added
@@ -12,7 +14,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
+      const response = await fetch("http://localhost:8080/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

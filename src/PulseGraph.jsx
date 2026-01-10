@@ -1,3 +1,5 @@
+
+
 import "./pulse.css";
 
 function PulseGraph() {

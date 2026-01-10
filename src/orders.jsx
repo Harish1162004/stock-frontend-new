@@ -1,5 +1,5 @@
-import React from "react";
-import Sidebar from "./sidebar";
+
+import Sidebar from "./sidebar.jsx";
 import { useTrading } from "./context/TradingContext";
 import "./orders.css";
 

@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState, useMemo } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
@@ -6,13 +8,15 @@ import CandleChart from "./components/CandleChart";
 import VolumeChart from "./components/VolumeChart";
 import OrderPanel from "./components/OrderPanel";
 import PositionCard from "./components/PositionCard";
+import OrderHistory from "./components/OrderHistory";
 import { calculatePosition } from "./utils/positions";
 import { useTrading } from "./context/TradingContext";
-import OrderHistory from "./components/OrderHistory";
-
 import "./Dashboard.css";
 
 function Dashboard() {
+  // ✅ GET LOGGED-IN USERNAME
+  const username = localStorage.getItem("username");
+
   const [active, setActive] = useState("TCS");
 
   const [tcs, setTcs] = useState([]);
@@ -23,11 +27,12 @@ function Dashboard() {
 
   // ================= WEBSOCKET =================
   useEffect(() => {
-    const socket = new SockJS(`${import.meta.env.VITE_API_URL}/ws`);
+    const socket = new SockJS("http://localhost:8080/ws");
 
     const client = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
+
       onConnect: () => {
         client.subscribe("/topic/candles", (msg) => {
           const data = JSON.parse(msg.body);
@@ -63,7 +68,6 @@ function Dashboard() {
 
   const ltp = prices[active];
 
-  // 🔥 THIS WAS MISSING
   const activeOrders = orders.filter((o) => o.symbol === active);
   const position = calculatePosition(activeOrders, ltp);
 
@@ -72,8 +76,11 @@ function Dashboard() {
       <Sidebar />
 
       <div className="main-content">
-        <h1>Welcome back, harish 👋</h1>
-        <p className="subtitle">Live market updates powered by WebSocket ⚡</p>
+        {/* HEADER */}
+        <h1>Welcome back, {username} 👋</h1>
+        <p className="subtitle">
+          Live market updates powered by WebSocket ⚡
+        </p>
 
         {/* STOCK TABS */}
         <div className="tabs">
@@ -88,7 +95,7 @@ function Dashboard() {
           ))}
         </div>
 
-        {/* ===== CHART ===== */}
+        {/* ===== CHART PANEL ===== */}
         <div className="chart-panel">
           <h3>{active} Live Chart</h3>
 
@@ -97,7 +104,7 @@ function Dashboard() {
               <CandleChart
                 candles={chartData}
                 orders={activeOrders}
-                ltp={prices[active]}
+                ltp={ltp}
               />
             </div>
 
@@ -105,11 +112,12 @@ function Dashboard() {
               <VolumeChart candles={chartData} />
             </div>
 
+            {/* ORDER PANEL */}
             <OrderPanel symbol={active} candles={chartData} />
           </div>
         </div>
 
-        {/* ===== SNAPSHOT ===== */}
+        {/* ===== MARKET SNAPSHOT ===== */}
         <div className="market-snapshot">
           <div className="snapshot-card">
             <span>LTP</span>
@@ -136,7 +144,7 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* 🔥 POSITION SECTION (THIS IS NEW & IMPORTANT) */}
+        {/* ===== POSITION ===== */}
         <div className="positions-section">
           <h3>Position</h3>
 
@@ -150,13 +158,11 @@ function Dashboard() {
             <p className="no-position">No open position</p>
           )}
         </div>
+
         {/* ===== ORDER HISTORY ===== */}
-<OrderHistory
-  orders={orders.filter(o => o.symbol === active)}
-/>
+        <OrderHistory orders={activeOrders} />
 
-
-        {/* ===== INSIGHT ===== */}
+        {/* ===== MARKET INSIGHT ===== */}
         <div className="insight-box">
           <h4>📌 Market Insight</h4>
           <p>
@@ -170,3 +176,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+   

@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./PositionCard.jsx";
 
 function PositionCard({ symbol, position, ltp }) {

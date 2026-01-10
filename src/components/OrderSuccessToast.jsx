@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./OrderSuccessToast.css";
 
 function OrderSuccessToast({ side, symbol }) {

@@ -1,3 +1,5 @@
+
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +10,7 @@ function Register() {
   const navigate = useNavigate();
 
   function handleRegister() {
-    fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
+    fetch("http://localhost:8080/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
