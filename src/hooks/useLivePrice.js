@@ -6,7 +6,7 @@ export default function useLivePrice() {
   const [prices, setPrices] = useState({});
 
   useEffect(() => {
-    const socket = new SockJS("http://localhost:8080/ws");
+    const socket = new SockJS("https://stock-engine-backend.onrender.com/ws");
     const stompClient = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
