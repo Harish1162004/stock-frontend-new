@@ -10,7 +10,7 @@ function OrderHistory() {
   const username = localStorage.getItem("username");
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/orders/user/${username}`)
+    fetch(`https://stock-engine-backend.onrender.com/api/orders/user/${username}`)
       .then(res => res.json())
       .then(data => setOrders(data));
   }, [username]);
