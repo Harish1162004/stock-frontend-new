@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-function Login() {
+function Login({ setIsLoggedIn }) {   // ✅ RECEIVE PROP
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ function Login() {
   const BASE_URL = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // 🔴 IMPORTANT
+    e.preventDefault();
 
     if (!username.trim() || !password.trim()) {
       alert("Username and password required");
@@ -32,11 +32,14 @@ function Login() {
         return;
       }
 
-      // ✅ save login state
+      // ✅ persist login
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("username", username);
+      localStorage.setItem("username", username.trim());
 
-      // 🔥 force navigation immediately
+      // 🔥 THIS LINE FIXES EVERYTHING
+      setIsLoggedIn(true);
+
+      // 🔥 navigate after state update
       navigate("/dashboard", { replace: true });
 
     } catch (err) {
