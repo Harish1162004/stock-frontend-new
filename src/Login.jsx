@@ -9,12 +9,22 @@ function Login() {
 
   const BASE_URL = import.meta.env.VITE_API_URL;
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault(); // 🔴 IMPORTANT
+
+    if (!username.trim() || !password.trim()) {
+      alert("Username and password required");
+      return;
+    }
+
     try {
       const res = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          username: username.trim(),
+          password: password.trim(),
+        }),
       });
 
       if (!res.ok) {
@@ -22,9 +32,13 @@ function Login() {
         return;
       }
 
+      // ✅ save login state
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("username", username);
-      navigate("/dashboard");
+
+      // 🔥 force navigation immediately
+      navigate("/dashboard", { replace: true });
+
     } catch (err) {
       alert("Backend not reachable");
       console.error(err);
@@ -36,20 +50,22 @@ function Login() {
       <div className="login-box">
         <h2>Login</h2>
 
-        <input
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <form onSubmit={handleLogin}>
+          <input
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <button onClick={handleLogin}>Login</button>
+          <button type="submit">Login</button>
+        </form>
 
         <p className="register-text">
           New user? <span onClick={() => navigate("/signup")}>Register</span>
