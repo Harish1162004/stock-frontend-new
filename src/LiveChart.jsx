@@ -1,5 +1,3 @@
-
-
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -22,12 +20,13 @@ ChartJS.register(
 );
 
 function LiveChart({ stock = "TCS" }) {
-  const prices = useWebSocketPrice(); // 🔥 LIVE prices
+  // ✅ ensure prices is always an object
+  const prices = useWebSocketPrice() || {};
   const [history, setHistory] = useState([]);
 
-  // ⏱ Add new price every update
+  // ⏱ Add new price every update (SAFE)
   useEffect(() => {
-    if (prices[stock]) {
+    if (prices && prices[stock] !== undefined) {
       setHistory((prev) => [...prev.slice(-20), prices[stock]]);
     }
   }, [prices, stock]);
@@ -58,6 +57,11 @@ function LiveChart({ stock = "TCS" }) {
       legend: { display: false },
     },
   };
+
+  // ✅ optional loading UI
+  if (history.length === 0) {
+    return <p style={{ color: "white" }}>Loading live price...</p>;
+  }
 
   return (
     <div style={{ marginTop: "30px" }}>
