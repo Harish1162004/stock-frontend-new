@@ -1,25 +1,29 @@
-
-
 import React, { useMemo } from "react";
-import Sidebar from "./sidebar"
+import Sidebar from "./sidebar";
 import { useTrading } from "./context/TradingContext";
 import { calculatePosition } from "./utils/positions";
 import "./Portfolio.css";
 
 function Portfolio() {
-  const { orders, prices } = useTrading();
+  // ✅ SAFE DEFAULTS
+  const trading = useTrading() || {};
+  const orders = trading.orders || [];
+  const prices = trading.prices || {};
 
   const symbols = ["TCS", "INFY", "RELIANCE"];
 
   const positions = useMemo(() => {
-    return symbols.map((symbol) => {
-      const symbolOrders = orders.filter(o => o.symbol === symbol);
-      const ltp = prices[symbol];
-      return {
-        symbol,
-        ...calculatePosition(symbolOrders, ltp),
-      };
-    }).filter(p => p.netQty !== 0);
+    return symbols
+      .map((symbol) => {
+        const symbolOrders = orders.filter((o) => o.symbol === symbol);
+        const ltp = prices[symbol] ?? 0;
+
+        return {
+          symbol,
+          ...calculatePosition(symbolOrders, ltp),
+        };
+      })
+      .filter((p) => p.netQty !== 0);
   }, [orders, prices]);
 
   return (
@@ -39,8 +43,8 @@ function Portfolio() {
                 <th>Qty</th>
                 <th>Avg Price</th>
                 <th>LTP</th>
-                <th>P&L</th>
-                <th>P&L %</th>
+                <th>P&amp;L</th>
+                <th>P&amp;L %</th>
               </tr>
             </thead>
 
@@ -50,7 +54,7 @@ function Portfolio() {
                   <td>{p.symbol}</td>
                   <td>{p.netQty}</td>
                   <td>₹{p.avgPrice.toFixed(2)}</td>
-                  <td>₹{prices[p.symbol]?.toFixed(2)}</td>
+                  <td>₹{(prices[p.symbol] ?? 0).toFixed(2)}</td>
                   <td className={p.pnl >= 0 ? "profit" : "loss"}>
                     ₹{p.pnl.toFixed(2)}
                   </td>
