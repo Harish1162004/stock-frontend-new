@@ -1,15 +1,19 @@
-
-
 import { createContext, useContext, useState } from "react";
 
-const TradingContext = createContext();
+// ✅ DEFAULT SAFE VALUES
+const TradingContext = createContext({
+  prices: {},
+  orders: [],
+  placeOrder: () => {},
+  updatePrice: () => {},
+});
 
 export function TradingProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [prices, setPrices] = useState({});
 
   const updatePrice = (symbol, price) => {
-    setPrices(prev => ({ ...prev, [symbol]: price }));
+    setPrices((prev) => ({ ...prev, [symbol]: price }));
   };
 
   const placeOrder = ({ symbol, side, price, qty }) => {
@@ -19,11 +23,11 @@ export function TradingProvider({ children }) {
       side,
       price,
       qty,
-      time: Math.floor(Date.now() / 1000), // ✅ UNIX SECONDS
+      time: Math.floor(Date.now() / 1000),
       status: "EXECUTED",
     };
 
-    setOrders(prev => [order, ...prev]);
+    setOrders((prev) => [order, ...prev]);
   };
 
   return (
