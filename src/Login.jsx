@@ -1,17 +1,17 @@
-
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";// casing fixed for linux
+import "./Login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const BASE_URL = import.meta.env.VITE_API_URL;
+
   const handleLogin = async () => {
     try {
-      const res = await fetch("https://stock-engine-backend.onrender.com/auth/login", {
+      const res = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -26,7 +26,7 @@ function Login() {
       localStorage.setItem("username", username);
       navigate("/dashboard");
     } catch (err) {
-      alert("Backend not running on port 8080");
+      alert("Backend not reachable");
       console.error(err);
     }
   };

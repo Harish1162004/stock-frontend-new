@@ -1,8 +1,6 @@
-
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "./signup.css";// ✅ CSS added
+import "./signup.css";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -10,28 +8,39 @@ function Signup() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const BASE_URL = import.meta.env.VITE_API_URL;
+
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    // ✅ frontend validation
+    if (!username.trim() || !password.trim()) {
+      setMessage("Username and password are required ❌");
+      return;
+    }
+
     try {
-      const response = await fetch("https://stock-engine-backend.onrender.com/auth/signup", {
+      const response = await fetch(`${BASE_URL}/auth/signup`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
-          password: password
-        })
+          username: username.trim(),
+          password: password.trim(),
+        }),
       });
 
+      const text = await response.text(); // 👈 read backend message
+
       if (response.ok) {
-        setMessage("Signup successful ✅");
+        setMessage(text + " ✅"); // "User Registered Successfully"
         setTimeout(() => navigate("/"), 1500);
       } else {
-        setMessage("Signup failed ❌");
+        setMessage(text + " ❌"); // "Username already exists"
       }
     } catch (error) {
+      console.error(error);
       setMessage("Server error ❌");
     }
   };
@@ -47,7 +56,6 @@ function Signup() {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
           />
 
           <input
@@ -55,7 +63,6 @@ function Signup() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
 
           <button type="submit">Register</button>
