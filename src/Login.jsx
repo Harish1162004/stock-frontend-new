@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-function Login({ setIsLoggedIn }) {   // ✅ RECEIVE PROP
+function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -32,14 +32,11 @@ function Login({ setIsLoggedIn }) {   // ✅ RECEIVE PROP
         return;
       }
 
-      // ✅ persist login
+      // ✅ persist login state
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("username", username.trim());
 
-      // 🔥 THIS LINE FIXES EVERYTHING
-      setIsLoggedIn(true);
-
-      // 🔥 navigate after state update
+      // ✅ immediate navigation
       navigate("/dashboard", { replace: true });
 
     } catch (err) {
@@ -71,7 +68,8 @@ function Login({ setIsLoggedIn }) {   // ✅ RECEIVE PROP
         </form>
 
         <p className="register-text">
-          New user? <span onClick={() => navigate("/signup")}>Register</span>
+          New user?{" "}
+          <span onClick={() => navigate("/signup")}>Register</span>
         </p>
       </div>
     </div>
