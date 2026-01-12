@@ -1,10 +1,11 @@
-
 import Sidebar from "./sidebar.jsx";
 import { useTrading } from "./context/TradingContext";
 import "./orders.css";
 
 function Orders() {
-  const { orders } = useTrading();
+  // ✅ SAFE ACCESS
+  const trading = useTrading() || {};
+  const orders = trading.orders || [];
 
   return (
     <div className="app-layout">
@@ -32,8 +33,8 @@ function Orders() {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((o, i) => (
-                  <tr key={i}>
+                {orders.map((o) => (
+                  <tr key={o.id}>
                     <td>{o.symbol}</td>
                     <td className={o.side === "BUY" ? "buy" : "sell"}>
                       {o.side}
